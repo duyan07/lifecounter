@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="ZmD-pq-KMO">
-                                <rect key="frame" x="17" y="176" width="58.666666666666657" height="40.666666666666657"/>
+                                <rect key="frame" x="16.999999999999996" y="176" width="58.666666666666657" height="40.666666666666657"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QrX-RZ-VJf">
                                         <rect key="frame" x="0.0" y="0.0" width="58.666666666666664" height="20.333333333333332"/>
@@ -140,7 +140,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player X LOSES!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L9w-A4-ZrH">
-                                <rect key="frame" x="105" y="760" width="183" height="24"/>
+                                <rect key="frame" x="112" y="760" width="169" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="q0s-hG-vQX"/>
                                 </constraints>
@@ -149,7 +149,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Life Counter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OKw-57-RBi">
-                                <rect key="frame" x="133.66666666666666" y="118.00000000000001" width="125.99999999999997" height="28.666666666666671"/>
+                                <rect key="frame" x="16" y="118.66666666666669" width="126" height="28"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -171,34 +171,57 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mgr-G5-2XB">
+                                <rect key="frame" x="291.66666666666669" y="118.33333333333333" width="85.333333333333314" height="33.333333333333329"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="+ Player"/>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a5m-vy-fWL">
+                                <rect key="frame" x="259.33333333333331" y="118" width="24" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="Che-va-atT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="L9w-A4-ZrH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="01r-Kp-Gkr"/>
                             <constraint firstItem="gIG-Tz-pY0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="2xi-48-HKU"/>
+                            <constraint firstItem="a5m-vy-fWL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="7UI-2X-d6w"/>
+                            <constraint firstItem="OKw-57-RBi" firstAttribute="leading" secondItem="gIG-Tz-pY0" secondAttribute="leading" id="8MP-Wa-SQn"/>
                             <constraint firstItem="JMp-RP-Gl8" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="8Ww-td-MPJ"/>
                             <constraint firstItem="ZmD-pq-KMO" firstAttribute="top" secondItem="9V7-iI-m91" secondAttribute="top" id="Nqz-zV-Ap7"/>
                             <constraint firstItem="ZmD-pq-KMO" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="58" id="OkV-vv-wkN"/>
+                            <constraint firstItem="a5m-vy-fWL" firstAttribute="centerY" secondItem="Mgr-G5-2XB" secondAttribute="centerY" id="QS4-Wv-3Io"/>
                             <constraint firstItem="OKw-57-RBi" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="30" id="RdJ-pw-gY3"/>
                             <constraint firstItem="gIG-Tz-pY0" firstAttribute="top" secondItem="JMp-RP-Gl8" secondAttribute="top" id="XLE-PM-Flx"/>
                             <constraint firstItem="JMp-RP-Gl8" firstAttribute="top" secondItem="9V7-iI-m91" secondAttribute="bottom" constant="39.333333333333371" id="YKP-tL-XKb"/>
-                            <constraint firstItem="OKw-57-RBi" firstAttribute="centerX" secondItem="L9w-A4-ZrH" secondAttribute="centerX" id="b0M-DF-d5F"/>
+                            <constraint firstItem="Mgr-G5-2XB" firstAttribute="leading" secondItem="OKw-57-RBi" secondAttribute="trailing" constant="129" id="ZV9-eg-uRb"/>
+                            <constraint firstItem="Mgr-G5-2XB" firstAttribute="leading" secondItem="a5m-vy-fWL" secondAttribute="trailing" constant="8.3333333333332575" id="asb-Wx-hdo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="9V7-iI-m91" secondAttribute="trailing" constant="17" id="ceu-5z-6m5"/>
-                            <constraint firstItem="OKw-57-RBi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="fOj-m3-ALc"/>
+                            <constraint firstItem="OKw-57-RBi" firstAttribute="firstBaseline" secondItem="Mgr-G5-2XB" secondAttribute="firstBaseline" id="d3h-St-0UE"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="OKw-57-RBi" secondAttribute="bottom" constant="-28.666666666666686" id="fwn-oQ-Mh3"/>
+                            <constraint firstItem="9V7-iI-m91" firstAttribute="top" secondItem="Mgr-G5-2XB" secondAttribute="bottom" constant="24.333333333333314" id="ima-am-cLv"/>
+                            <constraint firstItem="9V7-iI-m91" firstAttribute="top" secondItem="a5m-vy-fWL" secondAttribute="bottom" constant="24" id="kXb-3k-1O9"/>
                             <constraint firstItem="ZmD-pq-KMO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="17" id="l9y-9K-iLI"/>
                             <constraint firstItem="L9w-A4-ZrH" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="n2T-f7-ETG"/>
-                            <constraint firstItem="L9w-A4-ZrH" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="105" id="vme-Sr-JAY"/>
+                            <constraint firstItem="Mgr-G5-2XB" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OKw-57-RBi" secondAttribute="trailing" constant="8" symbolic="YES" id="ugk-31-7kI"/>
+                            <constraint firstItem="Mgr-G5-2XB" firstAttribute="trailing" secondItem="JMp-RP-Gl8" secondAttribute="trailing" id="usl-tu-8yF"/>
                             <constraint firstItem="9V7-iI-m91" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ZmD-pq-KMO" secondAttribute="trailing" constant="168.33333333333334" id="zHz-DW-7F1"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="RdJ-pw-gY3"/>
+                                <exclude reference="ZV9-eg-uRb"/>
                                 <exclude reference="zHz-DW-7F1"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="bigLifeCounterButtonLabel" destination="a5m-vy-fWL" id="Dhu-mI-e8x"/>
                         <outlet property="gameResultLabel" destination="L9w-A4-ZrH" id="tex-7z-6mo"/>
                         <outlet property="player1LifeLabel" destination="7k0-6b-4Bk" id="rcp-5u-egF"/>
                         <outlet property="player2LifeLabel" destination="6yb-Kl-xNR" id="d8k-Aq-S5M"/>
@@ -206,7 +229,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="151.90839694656489" y="0.70422535211267612"/>
         </scene>
     </scenes>
     <resources>

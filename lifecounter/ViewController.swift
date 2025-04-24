@@ -10,9 +10,11 @@ import UIKit
 class ViewController: UIViewController {
     
     private let initialLifeTotal = 20
+    private var playerCount = 4
     
     @IBOutlet weak var player1LifeLabel: UILabel!
     @IBOutlet weak var player2LifeLabel: UILabel!
+    @IBOutlet weak var bigLifeCounterButtonLabel: UITextField!
     @IBOutlet weak var gameResultLabel: UILabel!
     
     private var player1Life = 20 {
@@ -57,6 +59,10 @@ class ViewController: UIViewController {
         } else {
             gameResultLabel.isHidden = true
         }
+    }
+    
+    @IBAction func addPlayerButtonTapped(_ sender: UIButton) {
+        playerCount += 1
     }
     
     @IBAction func player1PlusButtonTapped(_ sender: UIButton) {
