@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
     
     private let initialLifeTotal = 20
     private var playerCount = 4
@@ -18,10 +18,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var addPlayerButton: UIButton!
     @IBOutlet weak var bigLifeCounterButtonLabel: UITextField!
     @IBOutlet weak var playersContainerView: UIView!
+    @IBOutlet weak var historyButton: UIButton!
     @IBOutlet weak var gameResultLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bigLifeCounterButtonLabel.keyboardType = .numberPad
+        bigLifeCounterButtonLabel.delegate = self
+        bigLifeCounterButtonLabel.placeholder = "5"
+        bigLifeCounterButtonLabel.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+
         setupInitialUI()
     }
     
@@ -38,39 +45,88 @@ class ViewController: UIViewController {
         gameResultLabel.isHidden = true
     }
     
-    private func updatePlayerBoxes() {
-            for view in playersContainerView.subviews {
-                view.removeFromSuperview()
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        updateButtonLabels()
+    }
+    
+    private func updateButtonLabels() {
+        if let amountText = bigLifeCounterButtonLabel.text, let amount = Int(amountText), amount > 0 {
+            for i in 1...playerCount {
+                if let playerView = playersContainerView.viewWithTag(i) {
+                    for subview in playerView.subviews {
+                        if let button = subview as? UIButton {
+                            if button.tag == i + 200 {
+                                button.setTitle("+ \(amount)", for: .normal)
+                            } else if button.tag == i + 300 {
+                                button.setTitle("- \(amount)", for: .normal)
+                            }
+                        }
+                    }
+                }
             }
-            
-            let isLandscape = UIDevice.current.orientation.isLandscape
-            let columns = isLandscape ? 4 : 2
-            
-            let containerWidth = playersContainerView.frame.width
-            let horizontalSpacing: CGFloat = 10
-            let verticalSpacing: CGFloat = 10
-            
-            let boxWidth = (containerWidth - (CGFloat(columns + 1) * horizontalSpacing)) / CGFloat(columns)
-            let boxHeight: CGFloat = 120
-            
-            for i in 0..<playerCount {
-                let playerBox = generatePlayerBox(for: i + 1)
-                playerBox.translatesAutoresizingMaskIntoConstraints = false
-                playersContainerView.addSubview(playerBox)
-                
-                let row = i / columns
-                let column = i % columns
-                let xPos = CGFloat(column) * (boxWidth + horizontalSpacing) + horizontalSpacing
-                let yPos = CGFloat(row) * (boxHeight + verticalSpacing) + verticalSpacing
-                
-                NSLayoutConstraint.activate([
-                    playerBox.topAnchor.constraint(equalTo: playersContainerView.topAnchor, constant: yPos),
-                    playerBox.leadingAnchor.constraint(equalTo: playersContainerView.leadingAnchor, constant: xPos),
-                    playerBox.widthAnchor.constraint(equalToConstant: boxWidth),
-                    playerBox.heightAnchor.constraint(equalToConstant: boxHeight)
-                ])
+        } else {
+            for i in 1...playerCount {
+                if let playerView = playersContainerView.viewWithTag(i) {
+                    for subview in playerView.subviews {
+                        if let button = subview as? UIButton {
+                            if button.tag == i + 200 {
+                                button.setTitle("+ 5", for: .normal)
+                            } else if button.tag == i + 300 {
+                                button.setTitle("- 5", for: .normal)
+                            }
+                        }
+                    }
+                }
             }
         }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        updateButtonLabels()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showHistorySegue" {
+            if let historyVC = segue.destination as? HistoryViewController {
+                historyVC.gameHistory = self.gameHistory
+            }
+        }
+    }
+    
+    private func updatePlayerBoxes() {
+        for view in playersContainerView.subviews {
+            view.removeFromSuperview()
+        }
+        
+        let isLandscape = UIDevice.current.orientation.isLandscape
+        let columns = isLandscape ? 4 : 2
+        
+        let containerWidth = playersContainerView.frame.width
+        let horizontalSpacing: CGFloat = 10
+        let verticalSpacing: CGFloat = 10
+        
+        let boxWidth = (containerWidth - (CGFloat(columns + 1) * horizontalSpacing)) / CGFloat(columns)
+        let boxHeight: CGFloat = 120
+        
+        for i in 0..<playerCount {
+            let playerBox = generatePlayerBox(for: i + 1)
+            playerBox.translatesAutoresizingMaskIntoConstraints = false
+            playersContainerView.addSubview(playerBox)
+            
+            let row = i / columns
+            let column = i % columns
+            let xPos = CGFloat(column) * (boxWidth + horizontalSpacing) + horizontalSpacing
+            let yPos = CGFloat(row) * (boxHeight + verticalSpacing) + verticalSpacing
+            
+            NSLayoutConstraint.activate([
+                playerBox.topAnchor.constraint(equalTo: playersContainerView.topAnchor, constant: yPos),
+                playerBox.leadingAnchor.constraint(equalTo: playersContainerView.leadingAnchor, constant: xPos),
+                playerBox.widthAnchor.constraint(equalToConstant: boxWidth),
+                playerBox.heightAnchor.constraint(equalToConstant: boxHeight)
+            ])
+        }
+        updateButtonLabels()
+    }
     
     private func generatePlayerBox(for playerNumber: Int) -> UIView {
         let playerView = UIView()
@@ -96,7 +152,7 @@ class ViewController: UIViewController {
         plusFiveButton.setTitle("+ 5", for: .normal)
         plusFiveButton.backgroundColor = UIColor.systemGray5
         plusFiveButton.layer.cornerRadius = 8
-        plusFiveButton.tag = playerNumber
+        plusFiveButton.tag = playerNumber + 200
         plusFiveButton.addTarget(self, action: #selector(playerPlusFiveButtonTapped(_:)), for: .touchUpInside)
         
         let minusOneButton = UIButton(type: .system)
@@ -110,7 +166,7 @@ class ViewController: UIViewController {
         minusFiveButton.setTitle("- 5", for: .normal)
         minusFiveButton.backgroundColor = UIColor.systemGray5
         minusFiveButton.layer.cornerRadius = 8
-        minusFiveButton.tag = playerNumber
+        minusFiveButton.tag = playerNumber + 300
         minusFiveButton.addTarget(self, action: #selector(playerMinusFiveButtonTapped(_:)), for: .touchUpInside)
         
         playerView.addSubview(playerLabel)
@@ -176,7 +232,7 @@ class ViewController: UIViewController {
         let playerIndex = sender.tag - 1
         if playerIndex >= 0 && playerIndex < playerLifeTotals.count {
             playerLifeTotals[playerIndex] += 1
-            updatePlayerLife(for: playerIndex + 1)
+            updatePlayerLife(for: playerIndex + 1, change: 1)
             if !gameInProgress {
                 gameInProgress = true
                 addPlayerButton.isEnabled = false
@@ -185,10 +241,15 @@ class ViewController: UIViewController {
     }
     
     @objc func playerPlusFiveButtonTapped(_ sender: UIButton) {
-        let playerIndex = sender.tag - 1
+        let playerIndex = (sender.tag - 200) - 1
         if playerIndex >= 0 && playerIndex < playerLifeTotals.count {
-            playerLifeTotals[playerIndex] += 5
-            updatePlayerLife(for: playerIndex + 1)
+            if let amountText = bigLifeCounterButtonLabel.text, let amount = Int(amountText), amount > 0 {
+                playerLifeTotals[playerIndex] += amount
+                updatePlayerLife(for: playerIndex + 1, change: amount)
+            } else {
+                playerLifeTotals[playerIndex] += 5
+                updatePlayerLife(for: playerIndex + 1, change: 5)
+            }
             if !gameInProgress {
                 gameInProgress = true
                 addPlayerButton.isEnabled = false
@@ -200,7 +261,7 @@ class ViewController: UIViewController {
         let playerIndex = sender.tag - 1
         if playerIndex >= 0 && playerIndex < playerLifeTotals.count {
             playerLifeTotals[playerIndex] -= 1
-            updatePlayerLife(for: playerIndex + 1)
+            updatePlayerLife(for: playerIndex + 1, change: -1)
             if !gameInProgress {
                 gameInProgress = true
                 addPlayerButton.isEnabled = false
@@ -209,37 +270,45 @@ class ViewController: UIViewController {
     }
     
     @objc func playerMinusFiveButtonTapped(_ sender: UIButton) {
-        let playerIndex = sender.tag - 1
+        let playerIndex = (sender.tag - 300) - 1
         if playerIndex >= 0 && playerIndex < playerLifeTotals.count {
-            if let textField = playersContainerView.viewWithTag(200 + sender.tag) as? UITextField, let amountText = textField.text, let amount = Int(amountText), amount > 0 {
+            if let amountText = bigLifeCounterButtonLabel.text, let amount = Int(amountText), amount > 0 {
                 playerLifeTotals[playerIndex] -= amount
-                updatePlayerLife(for: playerIndex + 1)
-                if !gameInProgress {
-                    gameInProgress = true
-                    addPlayerButton.isEnabled = false
-                }
+                updatePlayerLife(for: playerIndex + 1, change: -amount)
+            } else {
+                playerLifeTotals[playerIndex] -= 5
+                updatePlayerLife(for: playerIndex + 1, change: -5)
+            }
+            if !gameInProgress {
+                gameInProgress = true
+                addPlayerButton.isEnabled = false
             }
         }
     }
     
-    private func updatePlayerLife(for playerNumber: Int) {
+    private func updatePlayerLife(for playerNumber: Int, change: Int) {
         let playerIndex = playerNumber - 1
         if let playerView = playersContainerView.viewWithTag(playerNumber) {
             if let hpLabel = playerView.viewWithTag(100 + playerNumber) as? UILabel {
                 hpLabel.text = "HP: \(playerLifeTotals[playerIndex])"
             }
         }
+        let action = "Player \(playerNumber) \(change >= 0 ? "gained" : "lost") \(abs(change)) life."
+        gameHistory.append(action)
         checkGameResult()
     }
     
     private func checkGameResult() {
-        for i in 0..<playerLifeTotals.count {
-            if playerLifeTotals[i] <= 0 {
-                gameResultLabel.text = "Player \(i + 1) LOSES!"
-                gameResultLabel.isHidden = false
-                return
+            for i in 0..<playerLifeTotals.count {
+                if playerLifeTotals[i] <= 0 {
+                    gameResultLabel.text = "Player \(i + 1) LOSES!"
+                    gameResultLabel.isHidden = false
+                    gameHistory.append("Player \(i + 1) LOSES!")
+                    gameInProgress = false
+                    addPlayerButton.isEnabled = true
+                    return
+                }
             }
+            gameResultLabel.isHidden = true
         }
-        gameResultLabel.isHidden = true
-    }
 }
